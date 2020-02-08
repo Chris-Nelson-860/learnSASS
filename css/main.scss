@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+
+// SASS Map: contains key value pars, similar to a JS object
+
+//Variables
+$colors:(
+    primary: #005dff,
+    primary-light:lighten(#005dff,40%),
+    primary-dark:darken(#005dff,40%),
+    accent: #fff6bb,
+);
+
+$borders: 15px;
+$padding: 15px;
+
+//You can create a function.  The color function will take one argument which is the key from the colors sass map (object).
+@function color($color-name){
+    @return map-get($colors, $color-name);
+}
+
+//MEDIA QUERIES
+//Set a variable that will hold the break point from single column to two column.
+$desktop:840px;
+
+@mixin desktop {
+    @media (min-width: #{$desktop}){
+        @content;
+    }
+}
+
+//To use a value from the SASS map
+//map-get(nameOfMap,KeyFromTheMap)
+
+body, html{
+    height: 100%;
+    
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+
+    #bg{
+        background-color: color(primary);
+        clip-path: polygon(100% 0, 100% 75%, 63% 100%, 0 100%, 0 0);
+        height: 100%;
+        position: absolute;
+        width:100%;
+        z-index: -1;//To make this an absolute background
+
+        @include desktop(){
+            clip-path: polygon(0 0, 85% 0, 62% 100%, 0% 100%);
+        }
+    }
+
+    header a{
+        color: #fff;
+        display: block;
+        padding: $padding;
+        text-decoration: none;
+        text-transform: uppercase;
+    }
+}
+
+main{
+
+    @include desktop(){
+        display: grid;
+        grid-template-columns: 50% auto;
+        grid-template-areas: 
+            "primary card";
+
+    }
+
+    section#card{
+        background-color: #fff;
+        border-radius: $borders;
+        box-shadow:0 10px 30px rgba(0,0,0,.2);
+        margin: 1em auto;
+        padding: 20px;
+
+        @include desktop(){
+            grid-area: card;
+            height: fit-content;
+            align-self: center;
+            margin: 1em;
+        }
+    }
+
+    ul{
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+    
+        li{
+            margin-bottom: 10px;
+        
+            span{
+                position: absolute;
+                width: 30px;
+                height: 30px;
+                background-color: color(primary-light);
+                border-radius: 50%;
+                margin-right: 10px;
+            }
+            strong{
+                display: inline-block;
+                margin-left: max($numbers: 40px);
+                margin-top: 10px;
+            }
+        }
+    }
+    section#primary{
+        color: #fff;
+        padding: $padding;
+        text-align: center;
+
+        @include desktop(){
+            grid-area: primary;
+            text-align: left;
+            margin: 4em 0 4em 0;
+        }
+    }
+    h1{
+        font-size:3em;
+        margin-top: 10px;
+        text-transform: uppercase;
+
+        @include desktop(){
+            width: 30%;
+            font-size: 4em;
+            line-height: .9em;
+        }
+    }
+
+    p{
+        font-size: 1.4em;
+    }
+    a{
+        color: color(primary-dark);
+        border-radius: $borders;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-weight: bold;
+        background-color: color(accent);
+        display: block;
+        text-align: center;
+        margin: 50px auto 0 auto;
+        padding: $padding;  
+
+        @include desktop(){
+            display: inline-block;
+            padding: $padding $padding * 4;
+        }
+    }
+}
